@@ -84,18 +84,31 @@ const Tracking = () => {
                 <div className="text-sm text-muted-foreground">{item.location}</div>
               </div>
             </div>
-            <div className="flex items-start gap-3 rounded-lg border border-accent/30 bg-accent/5 p-4">
-              <Navigation className="mt-0.5 h-5 w-5 text-accent" />
-              <div>
-                <div className="text-xs uppercase tracking-wider text-accent">{t.delivery}</div>
-                <div className="font-semibold">Rahul · 2 min away</div>
-                <div className="text-sm text-muted-foreground">Live position updating…</div>
+            {item.price === 0 ? (
+              <div className="flex items-start gap-3 rounded-lg border border-accent/30 bg-accent/5 p-4">
+                <MapPin className="mt-0.5 h-5 w-5 text-accent" />
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-accent">Pickup only</div>
+                  <div className="font-semibold">Free food — no delivery</div>
+                  <div className="text-sm text-muted-foreground">Please come to the venue to collect and eat on-site.</div>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="flex items-start gap-3 rounded-lg border border-accent/30 bg-accent/5 p-4">
+                <Navigation className="mt-0.5 h-5 w-5 text-accent" />
+                <div>
+                  <div className="text-xs uppercase tracking-wider text-accent">{t.delivery}</div>
+                  <div className="font-semibold">Rahul · 2 min away</div>
+                  <div className="text-sm text-muted-foreground">Live position updating…</div>
+                </div>
+              </div>
+            )}
             <Button onClick={enableGps} disabled={watching} className="w-full bg-gradient-warm text-primary-foreground shadow-warm hover:opacity-95">
               {watching ? "GPS active ✓" : t.enable_gps}
             </Button>
-            <Button variant="outline" className="w-full"><Phone className="mr-2 h-4 w-4" /> Call delivery</Button>
+            {item.price !== 0 && (
+              <Button variant="outline" className="w-full"><Phone className="mr-2 h-4 w-4" /> Call delivery</Button>
+            )}
           </div>
         </Card>
 
