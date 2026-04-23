@@ -187,7 +187,7 @@ const dict = {
   },
 } as const;
 
-type Dict = typeof dict.en;
+type Dict = (typeof dict)["en"];
 const Ctx = createContext<{ lang: Lang; setLang: (l: Lang) => void; t: Dict } | null>(null);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
@@ -196,11 +196,5 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     setLangState(l);
     localStorage.setItem("sharefood:lang", l);
   };
-  return <Ctx.Provider value={{ lang, setLang, t: dict[lang] }}>{children}</Ctx.Provider>;
-};
-
-export const useLang = () => {
-  const v = useContext(Ctx);
-  if (!v) throw new Error("useLang must be used within LanguageProvider");
-  return v;
+  return <Ctx.Provider value={{ lang, setLang, t: dict[lang] as Dict }}>{children}</Ctx.Provider>;
 };
