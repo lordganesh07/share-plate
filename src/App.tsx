@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
 import Index from "./pages/Index.tsx";
 import Login from "./pages/Login.tsx";
 import Signup from "./pages/Signup.tsx";
@@ -14,6 +15,9 @@ import Provider from "./pages/Provider.tsx";
 import Profile from "./pages/Profile.tsx";
 import Payment from "./pages/Payment.tsx";
 import Tracking from "./pages/Tracking.tsx";
+import Cart from "./pages/Cart.tsx";
+import Wishlist from "./pages/Wishlist.tsx";
+import Settings from "./pages/Settings.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -23,6 +27,7 @@ const App = () => (
     <ThemeProvider>
       <LanguageProvider>
         <AuthProvider>
+          <CartProvider>
           <TooltipProvider>
             <Toaster />
             <Sonner />
@@ -36,10 +41,14 @@ const App = () => (
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/payment" element={<Payment />} />
                 <Route path="/tracking" element={<Tracking />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/wishlist" element={<Wishlist />} />
+                <Route path="/settings" element={<Settings />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </TooltipProvider>
+          </CartProvider>
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>

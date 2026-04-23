@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useLang } from "@/context/LanguageContext";
 import { toast } from "sonner";
-import { Banknote, QrCode, Smartphone, Truck, CheckCircle2 } from "lucide-react";
+import { Banknote, QrCode, Smartphone, Truck, CheckCircle2, MapPin } from "lucide-react";
 import { FoodListing } from "@/data/listings";
+
+type Method = "upi" | "net" | "qr" | "cod";
 
 const Payment = () => {
   const { t } = useLang();
@@ -16,13 +18,15 @@ const Payment = () => {
   const item: FoodListing | null = (() => {
     try { return JSON.parse(sessionStorage.getItem("sharefood:current") || "null"); } catch { return null; }
   })();
-  const [method, setMethod] = useState<"upi" | "net" | "qr" | "cod">("upi");
+
+  const isFree = !!item && item.price === 0;
+  const [method, setMethod] = useState<Method>(isFree ? "cod" : "upi");
   const [done, setDone] = useState(false);
 
   const pay = (e: React.FormEvent) => {
     e.preventDefault();
     setDone(true);
-    toast.success(t.pay_done);
+    toast.success(isFree ? "Pickup confirmed — head to the venue!" : t.pay_done);
     setTimeout(() => navigate("/tracking"), 1200);
   };
 
@@ -31,11 +35,11 @@ const Payment = () => {
     return null;
   }
 
-  const methods = [
-    { id: "upi" as const, label: t.pay_upi, icon: <Smartphone className="h-5 w-5" /> },
-    { id: "net" as const, label: t.pay_net, icon: <Banknote className="h-5 w-5" /> },
-    { id: "qr" as const, label: t.pay_qr, icon: <QrCode className="h-5 w-5" /> },
-    { id: "cod" as const, label: t.pay_cod, icon: <Truck className="h-5 w-5" /> },
+  const methods: { id: Method; label: string; icon: JSX.Element }[] = [
+    { id: "upi", label: t.pay_upi, icon: <Smartphone className="h-5 w-5" /> },
+    { id: "net", label: t.pay_net, icon: <Banknote className="h-5 w-5" /> },
+    { id: "qr", label: t.pay_qr, icon: <QrCode className="h-5 w-5" /> },
+    { id: "cod", label: t.pay_cod, icon: <Truck className="h-5 w-5" /> },
   ];
 
   return (
@@ -49,17 +53,42 @@ const Payment = () => {
           <p className="mt-2 text-sm text-muted-foreground">{item.ingredients}</p>
           <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
             <span className="text-muted-foreground">Total</span>
-            <span className="font-display text-3xl font-bold text-gradient-warm">{item.price === 0 ? "FREE" : `₹${item.price}`}</span>
+            <span className="font-display text-3xl font-bold text-gradient-warm">{isFree ? "FREE" : `₹${item.price}`}</span>
           </div>
         </Card>
 
         <Card className="border-border/60 p-8 shadow-soft">
-          <h1 className="font-display text-3xl font-bold">{t.pay_title}</h1>
+          <h1 className="font-display text-3xl font-bold">
+            {isFree ? "Confirm pickup" : t.pay_title}
+          </h1>
+
+          {isFree && (
+            <div className="mt-4 rounded-xl border border-accent/40 bg-accent/10 p-4 text-sm">
+              <div className="flex items-start gap-3">
+                <MapPin className="mt-0.5 h-5 w-5 text-accent" />
+                <div>
+                  <p className="font-semibold text-foreground">Free food — pickup only</p>
+                  <p className="mt-1 text-muted-foreground">
+                    Free items can't be delivered. Please come to <span className="font-medium text-foreground">{item.location}</span> to collect and enjoy on-site.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {done ? (
             <div className="mt-12 flex flex-col items-center text-center">
               <CheckCircle2 className="h-20 w-20 text-accent animate-pulse-warm" />
-              <p className="mt-4 font-display text-2xl font-bold">{t.pay_done}</p>
+              <p className="mt-4 font-display text-2xl font-bold">
+                {isFree ? "Pickup confirmed" : t.pay_done}
+              </p>
             </div>
+          ) : isFree ? (
+            <form onSubmit={pay} className="mt-6 space-y-4">
+              <Button type="submit" size="lg" className="w-full bg-gradient-warm text-primary-foreground shadow-warm hover:opacity-95">
+                Confirm pickup
+              </Button>
+            </form>
           ) : (
             <form onSubmit={pay} className="mt-6 space-y-6">
               <div className="grid grid-cols-2 gap-3">

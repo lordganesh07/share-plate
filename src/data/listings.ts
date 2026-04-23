@@ -12,6 +12,7 @@ export interface FoodListing {
   lng: number;
   expiresAt: number; // timestamp
   price: number; // INR; 0 = donation
+  _autoFree?: boolean; // computed: became free because <10 min remaining
 }
 
 const POOL = [
