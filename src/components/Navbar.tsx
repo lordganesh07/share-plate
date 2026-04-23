@@ -27,7 +27,7 @@ export const Navbar = ({ variant = "landing" }: { variant?: "landing" | "app" })
         </Link>
 
         {variant === "landing" && (
-          <nav className="hidden items-center gap-7 md:flex">
+          <nav className="hidden items-center gap-7 lg:flex">
             <a href="#about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">{t.nav_about}</a>
             <a href="#how" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">{t.nav_how}</a>
             <a href="#features" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">{t.features_title}</a>
