@@ -34,9 +34,9 @@ const Tracking = () => {
   const [delivery, setDelivery] = useState<[number, number] | null>(null);
   const [watching, setWatching] = useState(false);
 
-  // Animated delivery person — moves from provider toward user/center
+  // Animated delivery person — only for paid items (free = pickup only)
   useEffect(() => {
-    if (!item) return;
+    if (!item || item.price === 0) return;
     const target: [number, number] = me || [item.lat - 0.01, item.lng - 0.01];
     let pos: [number, number] = [item.lat, item.lng];
     setDelivery(pos);
