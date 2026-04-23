@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+
+
 export type Lang = "en" | "hi";
 
 const dict = {
@@ -198,3 +200,10 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
   return <Ctx.Provider value={{ lang, setLang, t: dict[lang] as Dict }}>{children}</Ctx.Provider>;
 };
+
+export const useLang = () => {
+  const v = useContext(Ctx);
+  if (!v) throw new Error("useLang must be used within LanguageProvider");
+  return v;
+};
+
