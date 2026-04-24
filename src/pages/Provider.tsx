@@ -19,8 +19,8 @@ const Provider = () => {
   const navigate = useNavigate();
   const [items, setItems] = useState<FoodListing[]>(() => JSON.parse(localStorage.getItem(KEY) || "[]"));
   const [form, setForm] = useState({
-    name: "", hotel: "", ingredients: "", quantity: 4, location: "Bandra West, Mumbai",
-    photo: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800", expiryMin: 30, price: 0,
+    name: "", hotel: "", ingredients: "", quantity: "4", location: "Bandra West, Mumbai",
+    photo: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800", expiryMin: "30", price: "0",
   });
 
   useEffect(() => {
