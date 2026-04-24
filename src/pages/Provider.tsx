@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ShoppingBag } from "lucide-react";
 import { useLang } from "@/context/LanguageContext";
 import { useAuth } from "@/context/AuthContext";
 import { FoodListing } from "@/data/listings";
@@ -54,7 +55,13 @@ const Provider = () => {
       <Navbar variant="app" />
       <div className="container grid gap-8 py-10 lg:grid-cols-[1fr_1fr]">
         <Card className="border-border/60 p-8 shadow-soft">
-          <h1 className="font-display text-3xl font-bold">{t.provider_title}</h1>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="font-display text-3xl font-bold">{t.provider_title}</h1>
+            <Button variant="outline" size="sm" onClick={() => navigate("/buyer")}>
+              <ShoppingBag className="h-4 w-4" />
+              Switch to Consumer
+            </Button>
+          </div>
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2"><Label>{t.food_name}</Label><Input required maxLength={60} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>

@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Moon, Sun, Globe, LogOut, User as UserIcon } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Moon, Sun, Globe, LogOut, User as UserIcon, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/context/ThemeContext";
 import { useLang } from "@/context/LanguageContext";
@@ -17,11 +17,19 @@ export const Navbar = ({ variant = "landing" }: { variant?: "landing" | "app" })
   const { lang, setLang, t } = useLang();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const homePath = user ? (user.role === "provider" ? "/provider" : "/buyer") : "/";
+  const showBack = location.pathname !== homePath && location.pathname !== "/";
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between gap-4">
-        <Link to={user ? (user.role === "provider" ? "/provider" : "/buyer") : "/"} className="mr-4 flex shrink-0 items-center gap-2">
+        {showBack && (
+          <Button variant="ghost" size="icon" onClick={() => navigate(-1)} aria-label="Go back" className="shrink-0">
+            <ArrowLeft className="h-5 w-5" />
+          </Button>
+        )}
+        <Link to={homePath} className="mr-4 flex shrink-0 items-center gap-2">
           <img src={logo} alt="ShareFood logo" width={36} height={36} className="h-9 w-9" />
           <span className="font-display text-lg font-bold text-gradient-warm sm:text-xl">ShareFood</span>
         </Link>
