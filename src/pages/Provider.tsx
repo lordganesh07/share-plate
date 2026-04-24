@@ -62,9 +62,9 @@ const Provider = () => {
             </div>
             <div className="space-y-2"><Label>{t.ingredients}</Label><Textarea required maxLength={300} value={form.ingredients} onChange={(e) => setForm({ ...form, ingredients: e.target.value })} /></div>
             <div className="grid gap-4 md:grid-cols-3">
-              <div className="space-y-2"><Label>{t.quantity}</Label><Input type="number" min={1} max={500} required value={form.quantity} onChange={(e) => setForm({ ...form, quantity: Number(e.target.value) })} /></div>
-              <div className="space-y-2"><Label>{t.expiry_min}</Label><Input type="number" min={1} max={1440} required value={form.expiryMin} onChange={(e) => setForm({ ...form, expiryMin: Number(e.target.value) })} /></div>
-              <div className="space-y-2"><Label>Price ₹ (0 = donate)</Label><Input type="number" min={0} max={5000} value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} /></div>
+              <div className="space-y-2"><Label>{t.quantity}</Label><Input type="number" min={1} max={500} required value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} /></div>
+              <div className="space-y-2"><Label>{t.expiry_min}</Label><Input type="number" min={1} max={1440} required value={form.expiryMin} onChange={(e) => setForm({ ...form, expiryMin: e.target.value })} /></div>
+              <div className="space-y-2"><Label>Price ₹ (0 = donate)</Label><Input type="number" min={0} max={5000} value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} /></div>
             </div>
             <div className="space-y-2"><Label>{t.location}</Label><Input required maxLength={120} value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} /></div>
             <div className="space-y-2"><Label>{t.photo_url}</Label><Input value={form.photo} maxLength={500} onChange={(e) => setForm({ ...form, photo: e.target.value })} /></div>
