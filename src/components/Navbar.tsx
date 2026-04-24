@@ -21,9 +21,9 @@ export const Navbar = ({ variant = "landing" }: { variant?: "landing" | "app" })
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between gap-4">
-        <Link to={user ? (user.role === "provider" ? "/provider" : "/buyer") : "/"} className="flex items-center gap-2">
+        <Link to={user ? (user.role === "provider" ? "/provider" : "/buyer") : "/"} className="mr-4 flex shrink-0 items-center gap-2">
           <img src={logo} alt="ShareFood logo" width={36} height={36} className="h-9 w-9" />
-          <span className="font-display text-xl font-bold text-gradient-warm">ShareFood</span>
+          <span className="font-display text-lg font-bold text-gradient-warm sm:text-xl">ShareFood</span>
         </Link>
 
         {variant === "landing" && (
@@ -48,9 +48,11 @@ export const Navbar = ({ variant = "landing" }: { variant?: "landing" | "app" })
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
-            {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
+          {user && (
+            <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
+              {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </Button>
+          )}
 
           {user ? (
             <>
